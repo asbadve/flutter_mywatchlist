@@ -34,7 +34,7 @@ class _AllMoviesState extends State<AllMovies>
   @override
   void initState() {
     _controller = ScrollController();
-    movieBloc.dispatch(GetPopularMovies(movieType, mediaType));
+    movieBloc.add(GetPopularMovies(movieType, mediaType));
     super.initState();
   }
 
@@ -93,7 +93,7 @@ class _AllMoviesState extends State<AllMovies>
 
   @override
   void dispose() {
-    movieBloc.dispose();
+    movieBloc.close();
     super.dispose();
   }
 
@@ -112,7 +112,7 @@ class _AllMoviesState extends State<AllMovies>
       child: Center(
         child: RaisedButton(
           onPressed: () {
-            movieBloc.dispatch(GetPopularMovies(movieType, mediaType));
+            movieBloc.add(GetPopularMovies(movieType, mediaType));
           },
           child: Text('Retry'),
         ),

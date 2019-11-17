@@ -29,14 +29,14 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
 
   @override
   void dispose() {
-    _movieDetailBloc.dispose();
+    _movieDetailBloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     args = ModalRoute.of(context).settings.arguments;
-    _movieDetailBloc.dispatch(GetMovieDetail(args.id));
+    _movieDetailBloc.add(GetMovieDetail(args.id));
     return Scaffold(
 //      appBar: AppBar(
 //        automaticallyImplyLeading: false,
