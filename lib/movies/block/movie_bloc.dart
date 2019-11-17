@@ -1,24 +1,24 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mywatchlist/movies/block/bloc.dart';
 import 'package:flutter_mywatchlist/movies/model/Movie.dart';
-import 'package:flutter_mywatchlist/movies/model/MovieResult.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_mywatchlist/movies/repository/moviedetailrepository.dart';
 
 class MovieBloc extends Bloc<MovieEvent, MovieState> {
   int _pageNo = 1;
   bool isEnd = false;
   List<Movie> listMovie;
   String movieType;
+  MovieDetailRepository movieDetailRepository;
 
   @override
   MovieState get initialState {
+    movieDetailRepository = MovieDetailRepository();
+
     if (listMovie == null) {
       listMovie = List<Movie>();
     }
@@ -38,9 +38,10 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         bool result = await DataConnectionChecker().hasConnection;
         if (result == true) {
           try {
-            print("page no " + _pageNo.toString());
-            final movieResult = await _fetchPopularMovies(
-                _pageNo, event.movieType, event.mediaType);
+            final movieResult =
+                await movieDetailRepository.fetchMediaPagingDetails(
+                    _pageNo, event.movieType, event.mediaType);
+
             if (_pageNo <= movieResult.totalPages) {
               if (_pageNo == movieResult.totalPages) {
                 isEnd = true;
@@ -69,67 +70,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     }
   }
 
-  Future<MovieResult> _fetchPopularMovies(
-      int pageNo, String movieType, String mediaType) async {
-    var url = await getUrlBy(movieType, mediaType, pageNo);
-    var data = await http
-        .get(url)
-        .timeout(Duration(seconds: 2), onTimeout: _onTimeout);
-    if (data.statusCode == 200) {
-      Map movieMap = jsonDecode(data.body);
-      MovieResult movieResult = MovieResult.fromJson(movieMap, mediaType);
-      return movieResult;
-    } else {
-      throw FetchMovieException(
-          "Faild to fetch movies:" + data.statusCode.toString());
-    }
-  }
-
   void getNextListPage(String movieType, String mediaType) {
-    dispatch(GetPopularMovies(movieType, mediaType));
-  }
-
-  Future<String> getUrlBy(
-      String movieType, String mediaType, int pageNo) async {
-    String key = await loadKey();
-
-    var url = "http://api.themoviedb.org/3/" +
-        mediaType +
-        "/$movieType?api_key=" +
-        key +
-        "&page=" +
-        pageNo.toString();
-    return url;
-  }
-
-  Future<String> loadKey() async {
-    var asset = await loadAsset();
-    String pw;
-    try {
-      pw = asset.toString();
-    } catch (e) {
-      debugPrint(e);
-    }
-
-    return jsonDecode(pw)['tmdb_key'];
-  }
-
-  Future<String> loadAsset() async {
-    return await rootBundle.loadString('assets/keys.json');
-  }
-
-  FutureOr<http.Response> _onTimeout() {
-    throw Exception("timeout");
-  }
-}
-
-class FetchMovieException implements Exception {
-  final _message;
-
-  FetchMovieException([this._message]);
-
-  String toString() {
-    if (_message == null) return "Exception";
-    return "Exception: $_message";
+    add(GetPopularMovies(movieType, mediaType));
   }
 }
