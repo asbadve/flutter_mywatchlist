@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-
 class MovieDetail {
   bool adult;
   String backdropPath;
@@ -35,40 +31,41 @@ class MovieDetail {
 
   MovieDetail(
       {this.adult,
-        this.backdropPath,
-        this.belongsToCollection,
-        this.budget,
-        this.genres,
-        this.homepage,
-        this.id,
-        this.imdbId,
-        this.originalLanguage,
-        this.originalTitle,
-        this.overview,
-        this.popularity,
-        this.posterPath,
-        this.productionCompanies,
-        this.productionCountries,
-        this.releaseDate,
-        this.revenue,
-        this.runtime,
-        this.spokenLanguages,
-        this.status,
-        this.tagline,
-        this.title,
-        this.video,
-        this.voteAverage,
-        this.voteCount,
-        this.videos,
-        this.images,
-        this.credits,
-        this.keywords});
+      this.backdropPath,
+      this.belongsToCollection,
+      this.budget,
+      this.genres,
+      this.homepage,
+      this.id,
+      this.imdbId,
+      this.originalLanguage,
+      this.originalTitle,
+      this.overview,
+      this.popularity,
+      this.posterPath,
+      this.productionCompanies,
+      this.productionCountries,
+      this.releaseDate,
+      this.revenue,
+      this.runtime,
+      this.spokenLanguages,
+      this.status,
+      this.tagline,
+      this.title,
+      this.video,
+      this.voteAverage,
+      this.voteCount,
+      this.videos,
+      this.images,
+      this.credits,
+      this.keywords});
 
   MovieDetail.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
-    belongsToCollection =
-    json['belongs_to_collection'] != null ? new BelongsToCollection.fromJson(json['belongs_to_collection']) : null;
+    belongsToCollection = json['belongs_to_collection'] != null
+        ? new BelongsToCollection.fromJson(json['belongs_to_collection'])
+        : null;
     budget = json['budget'];
     if (json['genres'] != null) {
       genres = new List<Genres>();
@@ -112,11 +109,11 @@ class MovieDetail {
     voteAverage = json['vote_average'];
     voteCount = json['vote_count'];
     videos =
-    json['videos'] != null ? new Videos.fromJson(json['videos']) : null;
+        json['videos'] != null ? new Videos.fromJson(json['videos']) : null;
     images =
-    json['images'] != null ? new Images.fromJson(json['images']) : null;
+        json['images'] != null ? new Images.fromJson(json['images']) : null;
     credits =
-    json['credits'] != null ? new Credits.fromJson(json['credits']) : null;
+        json['credits'] != null ? new Credits.fromJson(json['credits']) : null;
     keywords = json['keywords'] != null
         ? new Keywords.fromJson(json['keywords'])
         : null;
@@ -200,7 +197,6 @@ class BelongsToCollection {
     return data;
   }
 }
-
 
 class Genres {
   int id;
@@ -319,13 +315,13 @@ class Results {
 
   Results(
       {this.id,
-        this.iso6391,
-        this.iso31661,
-        this.key,
-        this.name,
-        this.site,
-        this.size,
-        this.type});
+      this.iso6391,
+      this.iso31661,
+      this.key,
+      this.name,
+      this.site,
+      this.size,
+      this.type});
 
   Results.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -396,12 +392,12 @@ class Posters {
 
   Posters(
       {this.aspectRatio,
-        this.filePath,
-        this.height,
-        this.iso6391,
-        this.voteAverage,
-        this.voteCount,
-        this.width});
+      this.filePath,
+      this.height,
+      this.iso6391,
+      this.voteAverage,
+      this.voteCount,
+      this.width});
 
   Posters.fromJson(Map<String, dynamic> json) {
     aspectRatio = json['aspect_ratio'];
@@ -426,7 +422,6 @@ class Posters {
   }
 }
 
-
 class Backdrops {
   double aspectRatio;
   String filePath;
@@ -438,12 +433,12 @@ class Backdrops {
 
   Backdrops(
       {this.aspectRatio,
-        this.filePath,
-        this.height,
-        this.iso6391,
-        this.voteAverage,
-        this.voteCount,
-        this.width});
+      this.filePath,
+      this.height,
+      this.iso6391,
+      this.voteAverage,
+      this.voteCount,
+      this.width});
 
   Backdrops.fromJson(Map<String, dynamic> json) {
     aspectRatio = json['aspect_ratio'];
@@ -513,13 +508,13 @@ class Cast {
 
   Cast(
       {this.castId,
-        this.character,
-        this.creditId,
-        this.gender,
-        this.id,
-        this.name,
-        this.order,
-        this.profilePath});
+      this.character,
+      this.creditId,
+      this.gender,
+      this.id,
+      this.name,
+      this.order,
+      this.profilePath});
 
   Cast.fromJson(Map<String, dynamic> json) {
     castId = json['cast_id'];
@@ -557,12 +552,12 @@ class Crew {
 
   Crew(
       {this.creditId,
-        this.department,
-        this.gender,
-        this.id,
-        this.job,
-        this.name,
-        this.profilePath});
+      this.department,
+      this.gender,
+      this.id,
+      this.job,
+      this.name,
+      this.profilePath});
 
   Crew.fromJson(Map<String, dynamic> json) {
     creditId = json['credit_id'];
@@ -588,15 +583,15 @@ class Crew {
 }
 
 class Keywords {
-  List<Keywords> keywords;
+  List<Keyword> keywords;
 
   Keywords({this.keywords});
 
   Keywords.fromJson(Map<String, dynamic> json) {
     if (json['keywords'] != null) {
-      keywords = new List<Keywords>();
+      keywords = new List<Keyword>();
       json['keywords'].forEach((v) {
-        keywords.add(new Keywords.fromJson(v));
+        keywords.add(new Keyword.fromJson(v));
       });
     }
   }
@@ -606,6 +601,28 @@ class Keywords {
     if (this.keywords != null) {
       data['keywords'] = this.keywords.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class Keyword {
+  String name;
+  int id;
+
+  Keyword({
+    this.id,
+    this.name,
+  });
+
+  Keyword.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
     return data;
   }
 }

@@ -11,6 +11,7 @@ class InitialMovieDetailState extends MovieDetailState {
 }
 
 class Progress extends InitialMovieDetailState {}
+class Retry extends InitialMovieDetailState {}
 
 class MovieDetailLoaded extends InitialMovieDetailState {
   final MovieDetail movieDetail;
