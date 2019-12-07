@@ -1,3 +1,6 @@
+import '../../const.dart' as Constant;
+import 'MovieResult.dart';
+
 class MovieDetail {
   bool adult;
   String backdropPath;
@@ -28,6 +31,7 @@ class MovieDetail {
   Images images;
   Credits credits;
   Keywords keywords;
+  MovieResult recommendations;
 
   MovieDetail(
       {this.adult,
@@ -58,7 +62,8 @@ class MovieDetail {
       this.videos,
       this.images,
       this.credits,
-      this.keywords});
+      this.keywords,
+      this.recommendations});
 
   MovieDetail.fromJson(Map<String, dynamic> json) {
     adult = json['adult'];
@@ -117,6 +122,10 @@ class MovieDetail {
     keywords = json['keywords'] != null
         ? new Keywords.fromJson(json['keywords'])
         : null;
+    recommendations = json['recommendations'] != null
+        ? new MovieResult.fromJson(
+            json['recommendations'], Constant.MEDIA_MOVIE)
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -168,6 +177,9 @@ class MovieDetail {
     }
     if (this.keywords != null) {
       data['keywords'] = this.keywords.toJson();
+    }
+    if (this.recommendations != null) {
+      data['recommendations'] = this.recommendations.toJson();
     }
     return data;
   }

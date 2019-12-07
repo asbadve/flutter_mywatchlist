@@ -20,7 +20,7 @@ class ApiBaseHelper {
     try {
       final response = await http
           .get(_baseUrl + pathUrl)
-          .timeout(Duration(seconds: 2), onTimeout: _onTimeout);
+          .timeout(Duration(seconds: 100), onTimeout: _onTimeout);
 
       responseJson = _returnResponse(response);
     } on SocketException {

@@ -128,6 +128,7 @@ class _AllMoviesState extends State<AllMovies>
       overview: movie.overview,
       releaseDate: movie.releaseDate,
       voteAverage: movie.voteAverage,
+      width: double.infinity,
       onPress: () {
         Navigator.pushNamed(
           context,
